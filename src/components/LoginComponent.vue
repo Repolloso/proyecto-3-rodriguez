@@ -75,7 +75,9 @@
         let data = this.getUsers.find((x) => x.email === this.email && x.password === this.password);
         
         localStorage.clear();
+        
         if (data) {
+          this.$store.commit('SET_CURRENT_USER', data)
           localStorage.setItem("isLogged", "true");
           localStorage.setItem("user", JSON.stringify(data));
           

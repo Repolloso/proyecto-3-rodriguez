@@ -9,7 +9,9 @@
             <p class="card-text fst-italic" style="font-size: 90%">{{item.description}}</p>
             <p class="card-text">Price: {{item.price}}$</p>
             <p class="card-text">Amount: {{item.amount}} units</p>
-            <button type="button" class="btn btn-primary">Add to cart</button>
+            <label for="">Cantidad al Carrito</label>
+            <input type="number" v-model="item.amount" :max="item.amount"/>
+            <button type="button" class="btn btn-primary" @click="addToCart(item)">Add to cart</button>
           </div>
         </div>
       </div>
@@ -30,20 +32,27 @@ import {mapGetters} from 'vuex';
       if (isLogged != "true") {
         this.$router.push("/login");
       }
-
       this.$store.dispatch('showProducts');
     },
     data () {
       return {
         
-      }
+        }
     },
     methods: {
-
+      addToCart (item) {
+        let payload = {
+          productId: item.id,
+          amount: item.amount,
+          userId: this.auth.id,
+        }
+        this.$store.dispatch('addToCart', payload);
+      }
     },
     computed: {
       ...mapGetters({
-        products: 'getProducts'
+        products: 'getProducts',
+        auth: 'auth'
       })
     }
 }
